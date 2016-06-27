@@ -1,11 +1,15 @@
 package de.biomedical_imaging.ij.ndef.particlesizer;
 
+import java.awt.Desktop;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.IllegalComponentStateException;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -21,7 +25,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import ij.IJ;
-import ij.gui.WaitForUserDialog;
 import ij.plugin.PlugIn;
 
 public class SettingsManager_ extends JDialog implements PlugIn  {
@@ -1064,8 +1067,9 @@ public class SettingsManager_ extends JDialog implements PlugIn  {
 		JButton okButton = new JButton("OK");
 		c = new GridBagConstraints();
 		c.weightx = 0.5;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 1;
+		c.fill = GridBagConstraints.NONE;
+		c.anchor = GridBagConstraints.EAST;
+		c.gridx = 0;
 		c.gridy = gridy;
 		c.insets = new Insets(10, 0, 5, 5);
 		okButton.addActionListener(new ActionListener() {
@@ -1124,6 +1128,33 @@ public class SettingsManager_ extends JDialog implements PlugIn  {
 			}
 		});
 		pane.add(okButton,c);
+		
+		JButton helpButton = new JButton("Help");
+		c = new GridBagConstraints();
+		c.weightx = 0.5;
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = gridy;
+		c.insets = new Insets(10, 0, 5, 5);
+		helpButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if(Desktop.isDesktopSupported())
+				{
+				  try {
+					Desktop.getDesktop().browse(new URI("http://imagej.net/ParticleSizer"));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (URISyntaxException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				}
+			}
+		});
+		pane.add(helpButton,c);
 		
 		JButton cancelButton = new JButton("Cancel");
 		c = new GridBagConstraints();
