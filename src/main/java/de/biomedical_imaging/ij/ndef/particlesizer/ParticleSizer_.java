@@ -13,7 +13,8 @@ public class ParticleSizer_ implements PlugIn {
 	public void run(String arg) {
 		try {
 			String path = ExportResource("/HAADF.ijm");
-			IJ.runMacroFile(path);
+			IJ.runMacroFile("HAADF.ijm");
+			
 
 		} catch (Exception e) {
 			IJ.handleException(e);
@@ -37,10 +38,10 @@ public class ParticleSizer_ implements PlugIn {
             	IJ.error("Cannot get resource \"" + resourceName + "\" from Jar file.");
                 throw new Exception("Cannot get resource \"" + resourceName + "\" from Jar file.");
             }
-
+           
             int readBytes;
             byte[] buffer = new byte[4096];
-            File folderDir = new File(IJ.getDirectory("imagej")+"/.particlesizer");
+            File folderDir = new File(IJ.getDirectory("macros"));
 
             // if the directory does not exist, create it
             if (!folderDir.exists()) {
