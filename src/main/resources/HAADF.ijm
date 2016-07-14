@@ -393,7 +393,8 @@ macro "HAADF" {
 		if(doIrregularWatershed){
 			shapeSmoothingNumberFD = 12;
 		}
-		run("Shape Smoothing", "relative=6 absolute="+shapeSmoothingNumberFD+" keep=[Absolute number of FDs] black stack");
+		run("Shape Smoothing", "relative_proportion_fds=9 absolute_number_fds=2 keep=[Relative_proportion of FDs] black stack");
+		//run("Shape Smoothing", "relative=6 absolute="+shapeSmoothingNumberFD+" keep=[Absolute number of FDs] black stack");
 		if(recordprogress){addActiveImageToProcessStack("Shape smoothing");}
 
 		/*
