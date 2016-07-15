@@ -404,6 +404,16 @@ macro "HAADF" {
 		 */
 		applyWatershed();
 
+		/*
+	 * SPECIAL CASE: WHEN WATERSHED AND SPM IS ACTIVATED
+     */
+	   if(singeParticleMode==true){
+		if(doIrregularWatershed){
+			run("Irregular Watershed", "erosion=1 convexity_threshsold="+irregularWatershedConvexityThreshold+" stack");
+			if(recordprogress){addActiveImageToProcessStack("Watershed");}
+		}
+	   }
+
 
 
 
