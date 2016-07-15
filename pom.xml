@@ -12,7 +12,7 @@ http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<groupId>de.biomedical-imaging.ij</groupId>
 	<artifactId>ParticleSizer_</artifactId>
-	<version>1.0.3</version>
+	<version>1.0.4-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>Plugin to derive number base size distributions from TEM images</name>

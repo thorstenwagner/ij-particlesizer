@@ -36,7 +36,7 @@ var ellipseFittingMode = (toLowerCase(call("ij.Prefs.get", "ndef.useEllipseFitti
 var binaryMode = (toLowerCase(call("ij.Prefs.get", "ndef.showBinaryResult","false"))=="true");
 var noPlot = (toLowerCase(call("ij.Prefs.get", "ndef.noPlotting","false"))=="true");
 var noDenoise = (toLowerCase(call("ij.Prefs.get", "ndef.noDenoise","false"))=="true");
-
+var recordprogress = (toLowerCase(call("ij.Prefs.get", "ndef.recordProcess","false"))=="true");
 
 /*
  * Default values
@@ -62,7 +62,6 @@ shapeSmoothingNumberFD = 6;
  */
 var testmode = false;
 var chatty = false;
-var recordprogress = false;
 var backgroundSubstractedImageTitle = "";	
 
 macro "HAADF" {
@@ -180,7 +179,7 @@ macro "HAADF" {
 	 function addActiveImageToProcessStack(text){
 		if(isOpen("process")){
 			title = getTitle();
-			run("Duplicate...", "title=addToProcess");
+			run("Duplicate...", "title=addToProcess duplicate range=1-1");
 			setFont("SansSerif", 20, "bold");
 			setForegroundColor(200, 200, 200);
 			drawString(text, 20, 20);
@@ -190,7 +189,7 @@ macro "HAADF" {
 		}
 		else{
 			title = getTitle();
-			run("Duplicate...", "title=process");
+			run("Duplicate...", "title=process duplicate range=1-1");
 			setFont("SansSerif", 20, "bold");
 			setForegroundColor(200, 200, 200);
 			drawString(text, 20, 20);
@@ -269,9 +268,11 @@ macro "HAADF" {
 			if(doIrregularWatershed){
 				//run("Irregular Watershed", "erosion="+irregularWatershedErosionNumber+" stack");
 				run("Irregular Watershed", "erosion=1 convexity_threshsold="+irregularWatershedConvexityThreshold+" stack");
+				if(recordprogress){addActiveImageToProcessStack("Irregular Watershed");}
 			}
 			else{
 				run("Watershed", "stack");
+				if(recordprogress){addActiveImageToProcessStack("Watershed");}
 			}
 		}
 		
@@ -352,7 +353,7 @@ macro "HAADF" {
 	applyWatershed();
 	run("Duplicate...", "title=AfterWatershed duplicate range=1-"+ nSlices);
 	selectImage(segImgID);
-	if(recordprogress){addActiveImageToProcessStack("Watershed #1");}
+	
 
 	showProgress(0.75);
 
@@ -368,6 +369,7 @@ macro "HAADF" {
 	if(singeParticleMode==true){
 			if(doIrregularWatershed){
 				run("Irregular Watershed", "erosion=1 convexity_threshsold="+irregularWatershedConvexityThreshold+" stack");
+				if(recordprogress){addActiveImageToProcessStack("Watershed");}
 			}
 	}
 
@@ -401,7 +403,7 @@ macro "HAADF" {
 		 * Apply Watershed again. Reason: The shape smoothing results sometimes in reconnected components.
 		 */
 		applyWatershed();
-		if(recordprogress){addActiveImageToProcessStack("Watershed");}
+
 
 
 

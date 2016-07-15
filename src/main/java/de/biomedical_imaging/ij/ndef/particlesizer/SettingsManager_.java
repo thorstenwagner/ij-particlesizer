@@ -124,6 +124,8 @@ public class SettingsManager_ extends JDialog implements PlugIn  {
 	
 	JCheckBox checkboxNoPlotting; 
 	JCheckBox checkboxNoNLMeans; 
+	
+	JCheckBox checkboxRecordProcess;
 	/*
 	 * Preference Strings
 	 */
@@ -146,6 +148,7 @@ public class SettingsManager_ extends JDialog implements PlugIn  {
 	private static final String PREF_USEELLIPSEFITTINGMODE = "ndef.useEllipseFittingMode";
 	private static final String PREF_NOPLOTTING = "ndef.noPlotting";
 	private static final String PREF_NODENOISE = "ndef.noDenoise";
+	private static final String PREF_RECORDPROCESS = "ndef.recordProcess";
 	
 	public void init(){
 		String defaulttest = "Use Default";
@@ -250,17 +253,24 @@ public class SettingsManager_ extends JDialog implements PlugIn  {
 				if(useSingleParticleMode.isSelected()){
 					checkboxMinimalConvexity.setSelected(false);
 					spinnerMinimalConvexity.setValue(0.85);
-					//checkboxMinimalConvexity.setEnabled(false);
 					spinnerMinimalConvexity.setEnabled(true);
-					//labelMinimalConvexity.setEnabled(false);
+					
+					checkboxMinimalSolidity.setSelected(false);
+					spinnerMinimalSolidity.setValue(0.75);
+					spinnerMinimalSolidity.setEnabled(true);
 				}
 				else{
-					//labelMinimalConvexity.setEnabled(true);
-					//spinnerMinimalConvexity.setEnabled(true);
 					checkboxMinimalConvexity.setEnabled(true);
 					spinnerMinimalConvexity.setValue(minimalConvexityDefault);
 					checkboxMinimalConvexity.setSelected(true);
-					spinnerMinimalConvexity.setEnabled(false);					
+					spinnerMinimalConvexity.setEnabled(false);	
+					
+					checkboxMinimalSolidity.setEnabled(true);
+					spinnerMinimalSolidity.setValue(minimalSolidityDefault);
+					checkboxMinimalSolidity.setSelected(true);
+					spinnerMinimalSolidity.setEnabled(false);	
+					
+					
 				}
 				
 				
@@ -439,6 +449,9 @@ public class SettingsManager_ extends JDialog implements PlugIn  {
 		//No NL Means
 		checkboxNoNLMeans = new JCheckBox("");
 		checkboxNoNLMeans.setSelected(false);
+		
+		checkboxRecordProcess = new JCheckBox("");
+		checkboxRecordProcess.setSelected(false);;
 		
 		SpinnerNumberModel spinnerSmoothingFactorModel  = new SpinnerNumberModel();
 		spinnerSmoothingFactorModel.setMinimum(1.0);
@@ -1061,6 +1074,26 @@ public class SettingsManager_ extends JDialog implements PlugIn  {
 		pane.add(checkboxNoNLMeans, c);
 		gridy++;
 		
+		///--------
+		
+		JLabel labelRecordProcess= new JLabel("Record process");
+		c = new GridBagConstraints();
+		c.weightx = 0.5;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = gridy;
+		c.insets = new Insets(0, 5, 0, 5);
+		pane.add(labelRecordProcess, c);
+		
+		c = new GridBagConstraints();
+		c.weightx = 0.5;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = gridy;
+		c.insets = new Insets(0, 5, 0, 5);
+		pane.add(checkboxRecordProcess, c);
+		gridy++;
+		
 		
 		
 		// BUttons
@@ -1124,6 +1157,7 @@ public class SettingsManager_ extends JDialog implements PlugIn  {
 				
 				ij.Prefs.set(PREF_NODENOISE, checkboxNoNLMeans.isSelected());
 				
+				ij.Prefs.set(PREF_RECORDPROCESS, checkboxRecordProcess.isSelected());
 				dispose();
 			}
 		});
@@ -1308,6 +1342,10 @@ public class SettingsManager_ extends JDialog implements PlugIn  {
 		 */
 		checkboxNoNLMeans.setSelected(Boolean.parseBoolean(ij.Prefs.get(PREF_NODENOISE, "false")));
 		
+		/*
+		 * Record process checkbox
+		 */
+		checkboxRecordProcess.setSelected(Boolean.parseBoolean(ij.Prefs.get(PREF_RECORDPROCESS, "false")));
 		
 		/*
 		 * Smoothing factor
