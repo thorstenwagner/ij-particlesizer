@@ -37,6 +37,7 @@ var binaryMode = (toLowerCase(call("ij.Prefs.get", "ndef.showBinaryResult","fals
 var noPlot = (toLowerCase(call("ij.Prefs.get", "ndef.noPlotting","false"))=="true");
 var noDenoise = (toLowerCase(call("ij.Prefs.get", "ndef.noDenoise","false"))=="true");
 var recordprogress = (toLowerCase(call("ij.Prefs.get", "ndef.recordProcess","false"))=="true");
+var doInvert = (toLowerCase(call("ij.Prefs.get", "ndef.invertImages","false"))=="true");
 
 /*
  * Default values
@@ -320,6 +321,9 @@ macro "HAADF" {
 
 	run("Duplicate...", "duplicate");
 	setBatchMode("hide");
+	if(doInvert==true){
+		run("Invert", "stack");	
+	}
 	workingtitle = getTitle();
 	workid = getImageID();
 	selectImage(workid);

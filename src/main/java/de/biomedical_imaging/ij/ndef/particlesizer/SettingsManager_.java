@@ -124,6 +124,7 @@ public class SettingsManager_ extends JDialog implements PlugIn  {
 	
 	JCheckBox checkboxNoPlotting; 
 	JCheckBox checkboxNoNLMeans; 
+	JCheckBox checkboxInvertImages;
 	
 	JCheckBox checkboxRecordProcess;
 	/*
@@ -149,6 +150,7 @@ public class SettingsManager_ extends JDialog implements PlugIn  {
 	private static final String PREF_NOPLOTTING = "ndef.noPlotting";
 	private static final String PREF_NODENOISE = "ndef.noDenoise";
 	private static final String PREF_RECORDPROCESS = "ndef.recordProcess";
+	private static final String PREF_INVERTIMAGES = "ndef.invertImages";
 	
 	public void init(){
 		String defaulttest = "Use Default";
@@ -435,6 +437,9 @@ public class SettingsManager_ extends JDialog implements PlugIn  {
 		});
 		checkboxMinimalSolidity.setToolTipText("Default value: " + minimalSolidity);
 
+		//Invert images
+		checkboxInvertImages = new JCheckBox("");
+		checkboxInvertImages.setSelected(false);
 		
 		//Show binary result
 		showBinaryResult = new JCheckBox("");
@@ -450,6 +455,7 @@ public class SettingsManager_ extends JDialog implements PlugIn  {
 		checkboxNoNLMeans = new JCheckBox("");
 		checkboxNoNLMeans.setSelected(false);
 		
+		//Record process
 		checkboxRecordProcess = new JCheckBox("");
 		checkboxRecordProcess.setSelected(false);;
 		
@@ -999,6 +1005,25 @@ public class SettingsManager_ extends JDialog implements PlugIn  {
 		pane.add(checkboxSmoothingFactor, c);
 		gridy++;
 		
+		//Invert images
+		JLabel labelInvertImage= new JLabel("Use inverted images");
+		c = new GridBagConstraints();
+		c.weightx = 0.5;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = gridy;
+		c.insets = new Insets(0, 5, 0, 5);
+		pane.add(labelInvertImage, c);
+		
+		c = new GridBagConstraints();
+		c.weightx = 0.5;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = gridy;
+		c.insets = new Insets(0, 5, 0, 5);
+		pane.add(checkboxInvertImages, c);
+		gridy++;
+		
 		//Show binary results
 		JLabel labelShowBinaryResult = new JLabel("Show binary result");
 		c = new GridBagConstraints();
@@ -1038,6 +1063,7 @@ public class SettingsManager_ extends JDialog implements PlugIn  {
 		pane.add(doSelectRegion, c);
 		gridy++;
 		
+		// No Plotting
 		JLabel labelNoPlotting= new JLabel("Do not plot size distributions");
 		c = new GridBagConstraints();
 		c.weightx = 0.5;
@@ -1056,6 +1082,7 @@ public class SettingsManager_ extends JDialog implements PlugIn  {
 		pane.add(checkboxNoPlotting, c);
 		gridy++;
 		
+		//No denoising
 		JLabel labelNoDenoising= new JLabel("Do not apply denoising");
 		c = new GridBagConstraints();
 		c.weightx = 0.5;
@@ -1158,6 +1185,8 @@ public class SettingsManager_ extends JDialog implements PlugIn  {
 				ij.Prefs.set(PREF_NODENOISE, checkboxNoNLMeans.isSelected());
 				
 				ij.Prefs.set(PREF_RECORDPROCESS, checkboxRecordProcess.isSelected());
+				
+				ij.Prefs.set(PREF_INVERTIMAGES, checkboxInvertImages.isSelected());
 				dispose();
 			}
 		});
@@ -1321,6 +1350,11 @@ public class SettingsManager_ extends JDialog implements PlugIn  {
 		spinnerMinimalSolidity.setEnabled(!(isDefault));
 		spinnerMinimalSolidity.setValue(isDefault?minimalSolidityDefault:minimalSolidity);
 		
+		/*
+		 * Invert images
+		 */
+		checkboxInvertImages.setSelected(Boolean.parseBoolean(ij.Prefs.get(PREF_INVERTIMAGES, "false")));
+
 		/*
 		 * Show binary result
 		 */
