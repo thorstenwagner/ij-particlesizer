@@ -491,6 +491,117 @@ public class SettingsManager_ extends JDialog implements PlugIn  {
 		JPanel pane = (JPanel) this.getContentPane();
 		pane.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
+		
+		// Mode Selection Headline
+		JLabel labelModeHeadline = new JLabel("Mode Selection");
+		c = new GridBagConstraints();
+		c.weightx = 1;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = gridy;
+		c.insets = new Insets(0, 5, 0, 5);
+		// c.gridwidth=GridBagConstraints.REMAINDER;
+		pane.add(labelModeHeadline, c);
+		gridy++;
+
+		// Mode Selection Seperator
+		c = new GridBagConstraints();
+		c.weightx = 0.5;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = gridy;
+		c.ipady = 10;
+		c.ipadx = 10;
+		c.gridwidth = 3;
+		// c.gridwidth=GridBagConstraints.REMAINDER;
+		pane.add(new JSeparator(SwingConstants.HORIZONTAL), c);
+		gridy++;
+
+		//Irregular watershed
+		JLabel labelDoIrregularWathershed= new JLabel("Use watershed for irregular structures");
+		c = new GridBagConstraints();
+		c.weightx = 0.5;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = gridy;
+		c.insets = new Insets(0, 5, 0, 5);
+		pane.add(labelDoIrregularWathershed, c);
+
+		c = new GridBagConstraints();
+		c.weightx = 0.5;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = gridy;
+		c.insets = new Insets(0, 5, 0, 5);
+		pane.add(doIrregularWatershed, c);
+		gridy++;
+
+		labelIrregularWatershedConvexityThreshold = new JLabel("Irregular watershed convexity threshold");
+		c = new GridBagConstraints();
+		c.weightx = 0.5;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = gridy;
+		c.insets = new Insets(0, 5, 0, 5);
+		pane.add(labelIrregularWatershedConvexityThreshold, c);
+
+		c = new GridBagConstraints();
+		c.weightx = 0.25;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = gridy;
+		pane.add(spinnerIrregularWatershedConvexityThreshold, c);
+
+		c = new GridBagConstraints();
+		c.weightx = 0.25;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 2;
+		c.gridy = gridy;
+		pane.add(checkboxIrregularWatershedConvexityThreshold, c);
+
+		gridy++;
+
+		//Single particle mode
+		JLabel labelUseSingleParticleMode = new JLabel("Use single particle mode");
+		labelUseSingleParticleMode.setToolTipText("No agglomerates will be splitted. Single particles will be detect by high convexity.");
+		c = new GridBagConstraints();
+		c.weightx = 0.5;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = gridy;
+		c.insets = new Insets(0, 5, 0, 5);
+		pane.add(labelUseSingleParticleMode, c);
+
+		c = new GridBagConstraints();
+		c.weightx = 0.5;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = gridy;
+
+		pane.add(useSingleParticleMode, c);
+		gridy++;
+
+		/*
+		 * Ellipse fitting
+		 */
+		JLabel labelUseEllipseFittingMode = new JLabel("Use ellipse fitting mode");
+		labelUseEllipseFittingMode.setToolTipText("");
+		c = new GridBagConstraints();
+		c.weightx = 0.5;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = gridy;
+		c.insets = new Insets(0, 5, 0, 5);
+		pane.add(labelUseEllipseFittingMode, c);
+
+		c = new GridBagConstraints();
+		c.weightx = 0.5;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 1;
+		c.gridy = gridy;
+
+		pane.add(useEllipseFittingMode, c);
+		gridy++;
 
 		// Segmentation Headline
 		JLabel labelSegmentationHeadline = new JLabel("Segmentation");
@@ -499,7 +610,8 @@ public class SettingsManager_ extends JDialog implements PlugIn  {
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = gridy;
-		c.insets = new Insets(0, 5, 0, 5);
+		
+		c.insets = new Insets(20, 5, 0, 5);
 		// c.gridwidth=GridBagConstraints.REMAINDER;
 		pane.add(labelSegmentationHeadline, c);
 		gridy++;
@@ -527,9 +639,9 @@ public class SettingsManager_ extends JDialog implements PlugIn  {
 		c.insets = new Insets(0, 5, 0, 5);
 		pane.add(labelWindowRadius, c);
 
-		
-		
-		
+
+
+
 		c = new GridBagConstraints();
 		c.weightx = 0.25;
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -537,7 +649,7 @@ public class SettingsManager_ extends JDialog implements PlugIn  {
 		c.gridy = gridy;
 		pane.add(spinnerWindowRadius, c);
 
-		
+
 		c = new GridBagConstraints();
 		c.weightx = 0.25;
 		c.fill = GridBagConstraints.HORIZONTAL;
@@ -604,91 +716,7 @@ public class SettingsManager_ extends JDialog implements PlugIn  {
 
 		gridy++;
 		
-		//Irregular watershed
-		JLabel labelDoIrregularWathershed= new JLabel("Use watershed for irregular structures");
-		c = new GridBagConstraints();
-		c.weightx = 0.5;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 0;
-		c.gridy = gridy;
-		c.insets = new Insets(0, 5, 0, 5);
-		pane.add(labelDoIrregularWathershed, c);
 		
-		c = new GridBagConstraints();
-		c.weightx = 0.5;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 1;
-		c.gridy = gridy;
-		c.insets = new Insets(0, 5, 0, 5);
-		pane.add(doIrregularWatershed, c);
-		gridy++;
-		
-	    labelIrregularWatershedConvexityThreshold = new JLabel("Irregular watershed convexity threshold");
-		c = new GridBagConstraints();
-		c.weightx = 0.5;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 0;
-		c.gridy = gridy;
-		c.insets = new Insets(0, 5, 0, 5);
-		pane.add(labelIrregularWatershedConvexityThreshold, c);
-		
-		c = new GridBagConstraints();
-		c.weightx = 0.25;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 1;
-		c.gridy = gridy;
-		pane.add(spinnerIrregularWatershedConvexityThreshold, c);
-		
-		c = new GridBagConstraints();
-		c.weightx = 0.25;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 2;
-		c.gridy = gridy;
-		pane.add(checkboxIrregularWatershedConvexityThreshold, c);
-
-		gridy++;
-
-		//Single particle mode
-		JLabel labelUseSingleParticleMode = new JLabel("Use single particle mode");
-		labelUseSingleParticleMode.setToolTipText("No agglomerates will be splitted. Single particles will be detect by high convexity.");
-		c = new GridBagConstraints();
-		c.weightx = 0.5;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 0;
-		c.gridy = gridy;
-		c.insets = new Insets(0, 5, 0, 5);
-		pane.add(labelUseSingleParticleMode, c);
-		
-		c = new GridBagConstraints();
-		c.weightx = 0.5;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 1;
-		c.gridy = gridy;
-		
-		pane.add(useSingleParticleMode, c);
-		gridy++;
-		
-		/*
-		 * Ellipse fitting
-		 */
-		JLabel labelUseEllipseFittingMode = new JLabel("Use ellipse fitting mode");
-		labelUseEllipseFittingMode.setToolTipText("");
-		c = new GridBagConstraints();
-		c.weightx = 0.5;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 0;
-		c.gridy = gridy;
-		c.insets = new Insets(0, 5, 0, 5);
-		pane.add(labelUseEllipseFittingMode, c);
-		
-		c = new GridBagConstraints();
-		c.weightx = 0.5;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 1;
-		c.gridy = gridy;
-		
-		pane.add(useEllipseFittingMode, c);
-		gridy++;
 		
 		
 		// ========================================================
