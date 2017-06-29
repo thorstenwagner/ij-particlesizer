@@ -434,7 +434,7 @@ macro "HAADF" {
 		shapefilter(-2,-2,-2,-2,-2,-2,false,true);
 		if(recordprogress){addActiveImageToProcessStack("Shape Filter #2");}
 		if(nResults==0){
-			exit("No particles could be detected")	
+			exit()	
 		}
 		call("ij.Prefs.set", "ndef.NumberOfParticles",toString(nResults)); 
 		/*
