@@ -434,13 +434,13 @@ macro "HAADF" {
 		shapefilter(-2,-2,-2,-2,-2,-2,false,true);
 		if(recordprogress){addActiveImageToProcessStack("Shape Filter #2");}
 		if(nResults==0){
-			exit("No particles could be detected")	
+			exit()	
 		}
 		call("ij.Prefs.set", "ndef.NumberOfParticles",toString(nResults)); 
 		/*
 		 * Show results as overlay
 		 */
-		run("Show Blobs as overlay", "binary_image=Segmentierung target_image="+originaltitle);
+		run("Show Blobs as overlay", "binary_image=Segmentierung target_image=["+originaltitle+"]");
 		if(binaryMode==false) {
 		 	selectImage(segImgID);
 		 	run("Close"); 
@@ -458,12 +458,12 @@ macro "HAADF" {
 		/*
 		 * Register image to shape filter plugins. This enabales the selection of particles by mouse 
 		 */
-		run("Register Image to ShapeFilter", "image="+originaltitle);
+		run("Register Image to ShapeFilter", "image=["+originaltitle+"]");
 		
 		/*
 		 * Enables the selection and analysis of agglomerates 
 		 */
-		run("Agglomerate Manager", "agglomerated=BeforeWatershed deagglomerated="+originaltitle+" agglomerated_black_background");
+		run("Agglomerate Manager", "agglomerated=BeforeWatershed deagglomerated=["+originaltitle+"] agglomerated_black_background");
 
 		/*
 		 * Replaces the "Distribution" function in the results table menu by a nanodefine specific function.
@@ -518,7 +518,7 @@ macro "HAADF" {
 		close("AfterWatershed");
 		selectImage(orgImageID);
 
-		run("Show Ellipses as overlay", "binary_image=Segmentierung target_image="+originaltitle);
+		run("Show Ellipses as overlay", "binary_image=Segmentierung target_image=["+originaltitle+"]");
 		if(binaryMode==false) {
 		 	selectImage(segImgID);
 		 	run("Close"); 
@@ -534,7 +534,7 @@ macro "HAADF" {
 		/*
 		 * Register image to ellipse split plugins. This enabales the selection of particles by mouse 
 		 */
-		run("Register Image to EllipseSplit", "image="+originaltitle);
+		run("Register Image to EllipseSplit", "image=["+originaltitle+"]");
 
 		/*
 		 * Replaces the "Distribution" function in the results table menu by a nanodefine specific function.
