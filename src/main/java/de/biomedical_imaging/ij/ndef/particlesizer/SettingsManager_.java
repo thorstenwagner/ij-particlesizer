@@ -1,12 +1,14 @@
 package de.biomedical_imaging.ij.ndef.particlesizer;
 
 import java.awt.Desktop;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.IllegalComponentStateException;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -14,11 +16,14 @@ import java.net.URISyntaxException;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JSpinner;
+import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
@@ -127,6 +132,11 @@ public class SettingsManager_ extends JDialog implements PlugIn  {
 	JCheckBox checkboxInvertImages;
 	
 	JCheckBox checkboxRecordProcess;
+	
+	JLabel labelSetRDirectory;
+	JTextField tfSetRDirectory;
+	JButton btSetRDirectory;
+	String myRpath;
 	/*
 	 * Preference Strings
 	 */
@@ -151,12 +161,14 @@ public class SettingsManager_ extends JDialog implements PlugIn  {
 	private static final String PREF_NODENOISE = "ndef.noDenoise";
 	private static final String PREF_RECORDPROCESS = "ndef.recordProcess";
 	private static final String PREF_INVERTIMAGES = "ndef.invertImages";
+	private static final String PREF_MYRPATH = "ndef.rpath";
 	
 	public void init(){
 		String defaulttest = "Use Default";
 		/*
 		 * Window Radius
 		 */
+		
 		spinnerModelWindowRadius = new SpinnerNumberModel();
 		spinnerModelWindowRadius.setValue(windowRadiusDefault);
 		spinnerWindowRadius = new JSpinner(spinnerModelWindowRadius);
@@ -472,6 +484,32 @@ public class SettingsManager_ extends JDialog implements PlugIn  {
 			public void actionPerformed(ActionEvent arg0) {
 				spinnerSmoothingFactor.setValue(smoothingFactorDefault);
 				spinnerSmoothingFactor.setEnabled(!checkboxSmoothingFactor.isSelected());
+				
+			}
+		});
+		
+		
+		labelSetRDirectory = new JLabel("Set R install directory");
+		tfSetRDirectory = new JTextField("...",10);
+	
+		btSetRDirectory = new JButton("Set");
+
+		btSetRDirectory.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser chooser = new JFileChooser(); 
+			    chooser.setCurrentDirectory(new java.io.File("."));
+			    chooser.setDialogTitle("Choose R directory");
+			    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+			    if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) { 
+			    	tfSetRDirectory.setText(chooser.getSelectedFile().getAbsolutePath());
+			    	myRpath = chooser.getSelectedFile().getAbsolutePath();
+			    	File f = new File(myRpath+"/bin/R.exe");
+			    	if( (f.exists() && !f.isDirectory()) == false) { 
+			    		JOptionPane.showMessageDialog(null, "Invalid R folder. Please check if the selected path contains the folder 'bin'.");
+			    	}
+			    }
 				
 			}
 		});
@@ -1150,6 +1188,33 @@ public class SettingsManager_ extends JDialog implements PlugIn  {
 		gridy++;
 		
 		
+		/// Set R directory
+		if(IJ.isWindows()){
+			c = new GridBagConstraints();
+			c.weightx = 0.5;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.gridx = 0;
+			c.gridy = gridy;
+			c.insets = new Insets(0, 5, 0, 5);
+			pane.add(labelSetRDirectory, c);
+			
+			c = new GridBagConstraints();
+			c.weightx = 0.25;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.gridx = 1;
+			c.gridy = gridy;
+			pane.add(tfSetRDirectory, c);
+	
+			
+			c = new GridBagConstraints();
+			c.weightx = 0.25;
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.gridx = 2;
+			c.gridy = gridy;
+			
+			pane.add(btSetRDirectory, c);
+			gridy++;
+		}
 		
 		// BUttons
 		JButton okButton = new JButton("OK");
@@ -1215,6 +1280,8 @@ public class SettingsManager_ extends JDialog implements PlugIn  {
 				ij.Prefs.set(PREF_RECORDPROCESS, checkboxRecordProcess.isSelected());
 				
 				ij.Prefs.set(PREF_INVERTIMAGES, checkboxInvertImages.isSelected());
+				
+				ij.Prefs.set(PREF_MYRPATH, myRpath);
 				dispose();
 			}
 		});
@@ -1452,6 +1519,14 @@ public class SettingsManager_ extends JDialog implements PlugIn  {
 		checkboxEllipseAspectRatio.setEnabled(useEllipseFittingMode.isSelected());
 		spinnerEllipseAspectRatio.setEnabled(useEllipseFittingMode.isSelected() && !isDefault);
 		spinnerEllipseAspectRatio.setValue(isDefault?maximalELlipseAspectRatioDefault:maximalEllipseAspectRatio);
+		
+		
+		/*
+		 * R Path
+		 */
+		myRpath = ij.Prefs.get(PREF_MYRPATH, "...");
+		tfSetRDirectory.setText(myRpath);
+		tfSetRDirectory.setEditable(false);
 		
 	}
 	
